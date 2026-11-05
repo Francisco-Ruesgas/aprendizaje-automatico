@@ -46,6 +46,13 @@ def test_hypothesis_supports_different_number_of_attributes():
     example = ("Japon", "Honda")
     assert hypothesis.covers(example)
 
+def test_empty_hypothesis_covers_no_instance():
+    """ Test that an empty hypothesis does not cover any instance. """
+    hypothesis = Hypothesis(())
+    example = ("Japon", "Honda", "azul", 1990, "economico")
+    assert not hypothesis.covers(example)
+    assert not hypothesis.covers(())
+
 ## Test the is_more_general_than method of the Hypothesis class
 
 def test_more_general_than_returns_true_for_more_general_hypothesis():
@@ -94,4 +101,21 @@ def test_more_general_than_with_different_dimensions_raises_an_error():
   with pytest.raises(ValueError):
     hypothesis.is_more_general_than(other_hypothesis)
 
+def test_empty_hypothesis_is_not_more_general_than_normal():
+    """ Test that an empty hypothesis is not more general than a normal hypothesis. """
+    hypothesis = Hypothesis(())
+    other_hypothesis = Hypothesis(("Japon", "Honda", "azul", 1980, "economico"))
+    assert not hypothesis.is_more_general_than(other_hypothesis)
 
+def test_normal_hypothesis_is_more_general_than_empty():
+    """ Test that a normal hypothesis is more general than an empty hypothesis. """
+    hypothesis = Hypothesis(("Japon", "Honda", "azul", 1980, "economico"))
+    empty_hypothesis = Hypothesis(())
+    assert hypothesis.is_more_general_than(empty_hypothesis)
+
+def test_empty_hypothesis_are_equally_general():
+    """ Test that two empty hypotheses are equally general. """
+    hypothesis = Hypothesis(())
+    other_hypothesis = Hypothesis(())
+    assert hypothesis.is_more_general_than(other_hypothesis)
+    assert other_hypothesis.is_more_general_than(hypothesis)

@@ -41,17 +41,17 @@ def test_hypothesis_different_dimensions_raise_an_error():
     hypothesis.covers(example)
 
 def test_hypothesis_supports_different_number_of_attributes():
-    """ Test that a hypothesis can support different numbers of attributes. """
-    hypothesis = Hypothesis(("Japon", "Honda"))
-    example = ("Japon", "Honda")
-    assert hypothesis.covers(example)
+  """ Test that a hypothesis can support different numbers of attributes. """
+  hypothesis = Hypothesis(("Japon", "Honda"))
+  example = ("Japon", "Honda")
+  assert hypothesis.covers(example)
 
 def test_empty_hypothesis_covers_no_instance():
-    """ Test that an empty hypothesis does not cover any instance. """
-    hypothesis = Hypothesis(())
-    example = ("Japon", "Honda", "azul", 1990, "economico")
-    assert not hypothesis.covers(example)
-    assert not hypothesis.covers(())
+  """ Test that an empty hypothesis does not cover any instance. """
+  hypothesis = Hypothesis(())
+  example = ("Japon", "Honda", "azul", 1990, "economico")
+  assert not hypothesis.covers(example)
+  assert not hypothesis.covers(())
 
 ## Test the is_more_general_than method of the Hypothesis class
 
@@ -102,20 +102,39 @@ def test_more_general_than_with_different_dimensions_raises_an_error():
     hypothesis.is_more_general_than(other_hypothesis)
 
 def test_empty_hypothesis_is_not_more_general_than_normal():
-    """ Test that an empty hypothesis is not more general than a normal hypothesis. """
-    hypothesis = Hypothesis(())
-    other_hypothesis = Hypothesis(("Japon", "Honda", "azul", 1980, "economico"))
-    assert not hypothesis.is_more_general_than(other_hypothesis)
+  """ Test that an empty hypothesis is not more general than a normal hypothesis. """
+  hypothesis = Hypothesis(())
+  other_hypothesis = Hypothesis(("Japon", "Honda", "azul", 1980, "economico"))
+  assert not hypothesis.is_more_general_than(other_hypothesis)
 
 def test_normal_hypothesis_is_more_general_than_empty():
-    """ Test that a normal hypothesis is more general than an empty hypothesis. """
-    hypothesis = Hypothesis(("Japon", "Honda", "azul", 1980, "economico"))
-    empty_hypothesis = Hypothesis(())
-    assert hypothesis.is_more_general_than(empty_hypothesis)
+  """ Test that a normal hypothesis is more general than an empty hypothesis. """
+  hypothesis = Hypothesis(("Japon", "Honda", "azul", 1980, "economico"))
+  empty_hypothesis = Hypothesis(())
+  assert hypothesis.is_more_general_than(empty_hypothesis)
 
 def test_empty_hypothesis_are_equally_general():
-    """ Test that two empty hypotheses are equally general. """
-    hypothesis = Hypothesis(())
-    other_hypothesis = Hypothesis(())
-    assert hypothesis.is_more_general_than(other_hypothesis)
-    assert other_hypothesis.is_more_general_than(hypothesis)
+  """ Test that two empty hypotheses are equally general. """
+  hypothesis = Hypothesis(())
+  other_hypothesis = Hypothesis(())
+  assert hypothesis.is_more_general_than(other_hypothesis)
+  assert other_hypothesis.is_more_general_than(hypothesis)
+
+## Test the equality operator of the Hypothesis class
+
+def test_hypothesis_equality_operator():
+  """ Test that two hypotheses with the same constraints are equal. """
+  first_hypothesis = Hypothesis(("Japon", "Honda", "azul", 1980, "economico"))
+  second_hypothesis = Hypothesis(("Japon", "Honda", "azul", 1980, "economico"))
+  third_hypothesis = Hypothesis(("Japon", "Toyota", "azul", 1980, "economico"))
+  assert first_hypothesis == second_hypothesis
+  assert first_hypothesis == first_hypothesis
+  assert not first_hypothesis == third_hypothesis
+
+def test_hypothesis_inequality_operator():
+  """ Test that two hypotheses with different constraints are not equal. """
+  first_hypothesis = Hypothesis(("Japon", "Honda", "azul", 1980, "economico"))
+  second_hypothesis = Hypothesis(("Japon", "Honda", "azul", 1980, "economico"))
+  third_hypothesis = Hypothesis(("Japon", "Toyota", "azul", 1980, "economico"))
+  assert first_hypothesis != third_hypothesis
+  assert not first_hypothesis != second_hypothesis

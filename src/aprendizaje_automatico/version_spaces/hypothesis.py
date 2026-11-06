@@ -39,3 +39,7 @@ class Hypothesis:
         other_constraint == "?" or constraint != other_constraint):
         return False
     return True
+
+  def __eq__(self, other: 'Hypothesis') -> bool:
+    """ Check if two hypotheses are equal. """
+    return self._constraints == other._constraints

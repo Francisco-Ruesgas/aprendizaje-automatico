@@ -43,3 +43,6 @@ class Hypothesis:
   def __eq__(self, other: 'Hypothesis') -> bool:
     """ Check if two hypotheses are equal. """
     return self._constraints == other._constraints
+
+  def __hash__(self):
+    return hash(self._constraints)

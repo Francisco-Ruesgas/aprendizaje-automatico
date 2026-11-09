@@ -1,0 +1,6 @@
+origen,marca,color,año,tipo,aceptado
+japon,honda,azul,1980,economico,True
+japon,toyota,verde,1970,deportivo,False
+japon,toyota,azul,1990,economico,True
+eeuu,chrysler,azul,1980,economico,False
+japon,honda,blanco,1980,economico,True

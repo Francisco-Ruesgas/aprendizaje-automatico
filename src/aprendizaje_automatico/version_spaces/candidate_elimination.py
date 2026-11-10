@@ -31,7 +31,11 @@ class CandidateElimination:
   def caso_positivo(self, example: tuple[str, ...]): # Nombre provisional
     """ Handle positive examples. """
     # Eliminar de G las hipótesis que no cubren el ejemplo.
-    self._G = {hypothesis for hypothesis in self._G if hypothesis.covers(example)}
+    self._G = {
+      hypothesis 
+      for hypothesis in self._G 
+      if hypothesis.covers(example)
+    }
     # Eliminar de S las hipótesis que no sean consistentes con las hipótesis de G.
     new_s = set()
     for s_hypothesis in self._S:
@@ -71,11 +75,11 @@ class CandidateElimination:
   def caso_negativo(self, example: tuple[str, ...]): # Nombre provisional
     """ Handle negative examples. """
     # Eliminar de S las hipótesis que cubran el ejemplo.
-    new_s = set()
-    for hypothesis in self._S:
-      if not hypothesis.covers(example):
-        new_s.add(hypothesis)
-    self._S = new_s
+    self._S = { 
+      hypothesis 
+      for hypothesis in self._S 
+      if not hypothesis.covers(example)
+    }
     # Separar las hipótesis de G en dos conjuntos: las que cubren el ejemplo y las que no.
     new_g = set()
     not_new_g = set()

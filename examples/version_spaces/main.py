@@ -1,16 +1,21 @@
-from aprendizaje_automatico.version_spaces.candidate_elimination import CandidateElimination
+from aprendizaje_automatico.version_spaces.candidate_elimination import (
+  CandidateElimination,
+)
+from utilities.csv_reader import read_csv
 
-example = ("japon","honda","azul",1980,"economico")
-example1= ("japon","toyota","verde",1970,"deportivo")
-example2=("japon","toyota","azul",1990,"economico")
-example3=("eeuu","chrysler","azul",1980,"economico")
-example4= ("japon","honda","blanco",1980,"economico")
 
-model = CandidateElimination(5)
-model.train(example, True)
-model.train(example1, False)
-model.train(example2, True)
-model.train(example3, False)
-model.train(example4, True)
-print([h._constraints for h in model._G])
-print([h._constraints for h in model._S])
+def split_features_and_label(raw_examples: list[tuple[str, ...]]) -> list[tuple[tuple[str, ...], bool]]:
+    """ Separate example and label"""
+    return [(example[:5], example[5]) for example in raw_examples]
+     
+def main():
+  file_path = "data/cars.csv"
+  test_examples = split_features_and_label(read_csv(file_path))
+  model = CandidateElimination(len(test_examples[0][0]))
+  for example in test_examples:
+     model.train(example[0], example[1])
+  print([h._constraints for h in model._G])
+  print([h._constraints for h in model._S])
+    
+if __name__ == "__main__":
+  main()

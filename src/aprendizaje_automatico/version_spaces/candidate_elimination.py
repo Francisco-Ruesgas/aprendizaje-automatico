@@ -37,13 +37,14 @@ class CandidateElimination:
       if hypothesis.covers(example)
     }
     # Eliminar de S las hipótesis que no sean consistentes con las hipótesis de G.
-    new_s = set()
-    for s_hypothesis in self._S:
-      for g_hypothesis in self._G:
-        if g_hypothesis.is_more_general_than(s_hypothesis):
-          new_s.add(s_hypothesis)
-          break
-    self._S = new_s
+    self._S = {
+      s_hypothesis
+      for s_hypothesis in self._S
+      if any(
+        g_hypothesis.is_more_general_than(s_hypothesis) 
+        for g_hypothesis in self._G
+      )
+    }
     # Generalizar mínimamente las hipótesis de S que no cubran el ejemplo.
     new_s = set()
     if self._S == {Hypothesis()}:
@@ -81,13 +82,9 @@ class CandidateElimination:
       if not hypothesis.covers(example)
     }
     # Separar las hipótesis de G en dos conjuntos: las que cubren el ejemplo y las que no.
-    new_g = set()
-    not_new_g = set()
+    new_g, not_new_g = set(), set()
     for g_hypothesis in self._G:
-      if g_hypothesis.covers(example):
-        not_new_g.add(g_hypothesis)
-      else:
-        new_g.add(g_hypothesis)
+      (not_new_g if g_hypothesis.covers(example) else new_g).add(g_hypothesis)
     self._G = new_g
     # Generalizar mínimamente las hipótesis de G que cubran el ejemplo.
     new_g == set()

@@ -17,4 +17,5 @@ class Literal:
     pass
 
   def __str__(self):
-    pass
+    sing = "not " if self._is_negated else ""
+    return  f"{sing}{self._predicate}({', '.join(self._terms)})"

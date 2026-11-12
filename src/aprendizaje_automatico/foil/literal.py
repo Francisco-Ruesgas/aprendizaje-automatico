@@ -14,7 +14,7 @@ class Literal:
     return self._predicate == other._predicate and self._terms == other._terms and self._is_negated == other._is_negated
 
   def __hash__(self):
-    return hash(self._predicate, self._terms, self._is_negated)
+    return hash((self._predicate, self._terms, self._is_negated))
 
   def __str__(self):
     sing = "not " if self._is_negated else ""

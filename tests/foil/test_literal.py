@@ -22,6 +22,29 @@ def test_literal_inequality_operator():
   assert not literal != literal
   assert not literal != other_literal
 
+## Test __hash__ method of Literal class
+
+def test_equal_literal_have_same_hash():
+  literal = Literal("parent", ("x", "y"))
+  other_literal = Literal("parent", ("x", "y"))
+  assert literal == other_literal
+  assert hash(literal) == hash(other_literal)
+
+def test_literal_can_be_added_to_set():
+    literal = Literal("parent", ("X", "Y"))
+    literals = {literal}
+    assert literal in literals
+
+def test_equal_literals_are_deduplicated_in_set():
+    literal = Literal("parent", ("X", "Y"))
+    other_literal = Literal("parent", ("X", "Y"))
+    assert len({literal, other_literal}) == 1
+
+def test_different_literals_can_coexist_in_set():
+    literal = Literal("parent", ("X", "Y"))
+    other_literal = Literal("male", ("X",))
+    assert len({literal, other_literal}) == 2
+
 ## Test string conversion of the Literal class
 
 def test_literal_to_string_conversion():
